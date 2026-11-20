@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f8fc">
+    <title>EduBot · Learning studio</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/vendor/katex.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <script defer src="/assets/vendor/marked.js"></script>
+    <script defer src="/assets/vendor/purify.js"></script>
+    <script defer src="/assets/vendor/katex.js"></script>
+    <script defer src="/assets/vendor/auto-render.js"></script>
+    <script defer src="/assets/script.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to learning studio</a>
+    <div id="nav-overlay" class="nav-overlay" aria-hidden="true" hidden></div>
+    <aside id="sidebar" class="sidebar" aria-label="Conversations">
+        <div class="brand">
+            <span class="brand-mark"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#graduation-cap"></use></svg></span>
+            <div><strong>EduBot</strong><small>by Evaextra</small></div>
+            <button id="close-nav" class="icon-button mobile-only" type="button" aria-label="Close conversations">
+                <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#x"></use></svg>
+            </button>
+        </div>
+        <button id="new-chat" class="button new-chat" type="button" disabled>
+            <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#plus"></use></svg>
+            New conversation
+        </button>
+        <section class="history" aria-labelledby="history-title">
+            <h2 id="history-title">Conversations</h2>
+            <label class="search">
+                <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#search"></use></svg>
+                <input id="search" type="search" placeholder="Search conversations" aria-label="Search conversations">
+            </label>
+            <ul id="chat-list" class="chat-list"></ul>
+            <p id="history-empty" class="history-empty">Your conversations will appear here.</p>
+        </section>
+        <button class="profile-link" id="profile-button" type="button" disabled>
+            <span class="profile-symbol"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#settings-2"></use></svg></span>
+            <span><strong>Learning profile</strong><small id="sidebar-age">Set up your workspace</small></span>
+            <svg class="profile-chevron" aria-hidden="true"><use href="/assets/vendor/icons.svg#chevron-right"></use></svg>
+        </button>
+    </aside>
+
+    <div id="workspace" class="workspace">
+        <header class="topbar">
+            <div class="breadcrumbs">
+                <button id="open-nav" class="icon-button mobile-only" type="button" aria-label="Open conversations" aria-controls="sidebar" aria-expanded="false">
+                    <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#menu"></use></svg>
+                </button>
+                <span class="breadcrumb-root">Workspace</span>
+                <svg class="breadcrumb-divider" aria-hidden="true"><use href="/assets/vendor/icons.svg#chevron-right"></use></svg>
+                <strong>Learning studio</strong>
+            </div>
+            <span id="connection" class="connection"><span></span><span id="connection-label">Connecting</span></span>
+        </header>
+
+        <main id="main" class="layout" tabindex="-1">
+            <div class="main-column">
+                <div id="error-bar" class="error-bar" hidden>
+                    <span id="error-message" role="alert"></span>
+                    <button id="reload" class="text-button" type="button" hidden>Reconnect</button>
+                    <button id="dismiss-error" class="icon-button" type="button" aria-label="Dismiss error">
+                        <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#x"></use></svg>
+                    </button>
+                </div>
+                <section id="welcome" class="welcome" aria-labelledby="welcome-heading">
+                    <div class="welcome-art" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                    <span class="welcome-icon" aria-hidden="true"><svg><use href="/assets/vendor/icons.svg#sparkles"></use></svg></span>
+                    <h1 id="welcome-heading">What are we<br>learning today?</h1>
+                    <p>Ask a question, practise a skill, or build a study plan at your pace.</p>
+                </section>
+
+                <section id="onboarding" class="onboarding surface" aria-labelledby="age-heading" hidden>
+                    <div class="section-symbol"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#graduation-cap"></use></svg></div>
+                    <div class="onboarding-content">
+                        <h2 id="age-heading">How old are you?</h2>
+                        <p>Enter your age so we can choose examples and explanations that fit. We save your age range for this browser.</p>
+                        <form id="age-form" class="age-form">
+                            <label class="sr-only" for="age">Your age in years</label>
+                            <input id="age" type="number" min="5" max="120" step="1" inputmode="numeric" placeholder="Age in years" autocomplete="off" required>
+                            <button class="button primary" type="submit">Continue <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#arrow-right"></use></svg></button>
+                        </form>
+                    </div>
+                </section>
+
+                <section id="starters" class="starters" aria-labelledby="starter-heading" hidden>
+                    <h2 id="starter-heading">Start with a question</h2>
+                    <div id="starter-grid" class="starter-grid"></div>
+                </section>
+
+                <section id="conversation" class="conversation" aria-labelledby="conversation-heading" hidden>
+                    <div class="conversation-header">
+                        <h1 id="conversation-heading">Conversation</h1>
+                        <div class="conversation-actions">
+                            <button id="export-chat" class="icon-button" type="button" title="Export conversation" aria-label="Export conversation">
+                                <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#download"></use></svg>
+                            </button>
+                            <button id="delete-chat" class="icon-button danger" type="button" title="Delete conversation" aria-label="Delete conversation">
+                                <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#trash-2"></use></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="messages" class="messages"></div>
+                </section>
+                <div id="progress" class="progress" role="status" hidden><span aria-hidden="true"></span> EduBot is working on your question…</div>
+
+                <div id="composer-wrap" class="composer-wrap" hidden>
+                    <form id="chat-form" class="composer">
+                        <label class="sr-only" for="question">Your question</label>
+                        <textarea id="question" rows="2" maxlength="2500" placeholder="Ask EduBot anything about your studies…" required></textarea>
+                        <div class="composer-tools">
+                            <select id="mode-select" class="selected-mode" aria-label="Learning mode"></select>
+                            <span id="counter" class="counter" aria-hidden="true">0 / 2500</span>
+                            <button id="send" class="button send" type="submit" aria-label="Send message">
+                                <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#arrow-up"></use></svg>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="composer-note">EduBot can make mistakes. Check important facts and keep personal details out of the chat.</p>
+                </div>
+            </div>
+
+            <aside class="rail" aria-label="Learning tools">
+                <section class="surface mode-panel" aria-labelledby="mode-title">
+                    <h2 id="mode-title">Learning modes</h2>
+                    <p>Choose how EduBot helps.</p>
+                    <div id="modes" role="group" aria-label="Learning mode"></div>
+                </section>
+                <section class="surface privacy-panel" aria-labelledby="privacy-title">
+                    <span class="section-symbol"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#shield-check"></use></svg></span>
+                    <h2 id="privacy-title">Your workspace</h2>
+                    <p id="privacy-text">Set up a learning profile to tailor your sessions to your age.</p>
+                    <button class="text-button" id="privacy-button" type="button" disabled>
+                        Manage profile <svg aria-hidden="true"><use href="/assets/vendor/icons.svg#arrow-right"></use></svg>
+                    </button>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <dialog id="profile-dialog" aria-labelledby="profile-title">
+        <div class="dialog-heading">
+            <h2 id="profile-title">Learning profile</h2>
+            <button class="icon-button close-dialog" type="button" aria-label="Close profile"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#x"></use></svg></button>
+        </div>
+        <p id="profile-description"></p>
+        <form id="edit-age-form" class="age-form">
+            <label class="sr-only" for="edit-age">Update your age in years</label>
+            <input id="edit-age" type="number" min="5" max="120" step="1" inputmode="numeric" placeholder="Age in years" autocomplete="off" required>
+            <button type="submit" class="button primary">Save age</button>
+        </form>
+        <p class="privacy-description">This profile and conversation history are tied to this browser. The server keeps them for 30 days after the age is saved. Your questions and recent context go to Groq when you chat.</p>
+        <button id="reset-workspace" class="text-button danger" type="button"><svg aria-hidden="true"><use href="/assets/vendor/icons.svg#trash-2"></use></svg> Clear workspace</button>
+    </dialog>
+
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+        <h2 id="confirm-title"></h2>
+        <p id="confirm-description"></p>
+        <form method="dialog" class="dialog-actions">
+            <button class="button neutral" value="cancel" autofocus>Cancel</button>
+            <button class="button destructive" value="confirm">Delete</button>
+        </form>
+    </dialog>
+    <p id="announcer" class="sr-only" role="status" aria-live="polite"></p>
+</body>
+</html>
